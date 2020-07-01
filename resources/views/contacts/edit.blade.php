@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="container-fluid">
 <div class="row align-items-center justify-content-center">
 <a style="margin: 19px;" href="{{ route('contacts.index')}}" class="btn btn-secondary">< Back</a>
 
@@ -53,6 +54,7 @@
             <button type="submit" class="btn btn-primary btn-block">Update</button>
         </form>
     </div>
+</div>
 </div>
 </div>
 @endsection

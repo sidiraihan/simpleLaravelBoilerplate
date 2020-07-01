@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Contact;
+use Auth;
+use DataTables;
 
 class ContactController extends Controller
 {
@@ -18,12 +20,33 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $get_contact = Contact::all();
+        //$get_contact = Contact::with('ownerData')->get();
+        //dd($get_contact);
+        
+        if ($request->ajax()){
+            $data = Contact::with('ownerData')->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                        $btn = '<a href="'.route('contacts.edit',$row->id).'" class="btn btn-primary">Edit</a>';
+                        return $btn;
+                })
+                ->editColumn('owner', function($row){
+                    $v = $row->ownerData['name'];
+                     return $v;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        
+        //return view('contacts.index',compact($data));
 
-        return view('contacts.index', compact('get_contact'));
+        return view('contacts.index');
+
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -55,7 +78,8 @@ class ContactController extends Controller
             'email' => $request->get('email'),
             'job_title' => $request->get('job_title'),
             'city' => $request->get('city'),
-            'country' => $request->get('country')
+            'country' => $request->get('country'),
+            'owner' => Auth::user()->id
         ]);
         $contact->save();
         return redirect('/contacts')->with('success', 'Contact saved m8!');

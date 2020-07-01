@@ -18,6 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('contacts', 'ContactController')->middleware('auth');
-
 Route::get('/home', 'HomeController@index')->name('home');
+Route::resource('contacts', 'ContactController')->middleware('auth');
+// Route::get('/contact/listajax','ContactController@listajax')->middleware('auth');
+

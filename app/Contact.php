@@ -12,6 +12,12 @@ class Contact extends Model
         'email',
         'city',
         'country',
-        'job_title'       
+        'job_title',
+        'owner'   
     ];
+
+    public function ownerData()
+    {
+        return $this->belongsTo('App\User', 'owner');
+    }
 }
