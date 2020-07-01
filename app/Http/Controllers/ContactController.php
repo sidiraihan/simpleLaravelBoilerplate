@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Contact;
 use Auth;
 use DataTables;
+use Toastr;
 
 class ContactController extends Controller
 {
@@ -30,7 +31,8 @@ class ContactController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
-                        $btn = '<a href="'.route('contacts.edit',$row->id).'" class="btn btn-primary">Edit</a>';
+                        $btn = '<a href="'.route('contacts.edit',$row->id).'" class="btn btn-sm btn-primary"><i class="zmdi zmdi-edit"></i></a>';
+                        $btn .= '<a href="javascript:void()" data-id="'.$row->id.'" data-name="'.$row->first_name.'" class="btn btn-sm btn-danger rm-contact" style="margin-left:10px;"><i class="zmdi zmdi-delete"></i></a>';
                         return $btn;
                 })
                 ->editColumn('owner', function($row){
@@ -82,7 +84,8 @@ class ContactController extends Controller
             'owner' => Auth::user()->id
         ]);
         $contact->save();
-        return redirect('/contacts')->with('success', 'Contact saved m8!');
+        Toastr::success('Contact Created','Success');
+        return redirect('/contacts');
     }
 
     /**
@@ -131,8 +134,9 @@ class ContactController extends Controller
         $contact->city = $request->get('city');
         $contact->country = $request->get('country');
         $contact->save();
-
-        return redirect('/contacts')->with('success', 'Contact updated!');
+         
+        Toastr::success('Contact Updated','Success');
+        return redirect('/contacts');
     }
 
     /**
@@ -145,7 +149,11 @@ class ContactController extends Controller
     {
         $contact = Contact::find($id);
         $contact->delete();
-
-        return redirect('/contacts')->with('success', 'Contact deleted m8!');
+        
+        return json_encode([
+          "success" => true,
+          "msg" => "The contact has been successfully removed"
+        ]);
+        //return redirect('/contacts')->with('success', 'Contact deleted m8!');
     }
 }

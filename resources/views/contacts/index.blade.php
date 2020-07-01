@@ -74,6 +74,66 @@ $(function () {
         ]
     });
 
+    //delete binding
+    $(document).on('click','.rm-contact',function(){
+        var id = $(this).data('id');
+        var name = $(this).data('name');
+        swal({
+        title: "Are you sure?",
+        text: "you are going to remove "+name,
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        })
+        .then((willDelete) => {
+        if (willDelete) {
+
+            $.ajax(
+                {
+                url: "contacts/"+id, 
+                type: 'DELETE',
+                data: {
+                    id: id
+                },
+                success: function (response){
+                    $('#contactTable').DataTable().ajax.reload() ;
+                    swal("Removed", {
+                    icon: "success",
+                    timer: 800,
+                    });
+                }
+            });
+        }
+        });
+
+        // swal({
+        //     title: "Are you sure ? ",
+        //     text: "you are going to remove "+$(this).data('name'),
+        //     type: "warning",
+        //     showCancelButton: !0,
+        //     closeOnConfirm: !1,
+        //     showLoaderOnConfirm: !0
+        // }, function() {
+        //   reCsrf();
+        //   $.post("/api/customers/destroy", {id: id}, function(result){
+        //         var data = $.parseJSON(result);
+        //         if(data.success){
+        //           $('#customerListDT').DataTable().ajax.reload() ;
+        //           swal("Customer has been removed");
+        //         }else{
+        //           swal({
+        //             title:"Ooops, it failed..",
+        //             text: "It seems that something wrong happened",
+        //             type: "error"
+        //           })
+        //         }
+
+        //   });
+        // })
+    });
+
+    //swal("Hello world!");
+
 });
 </script>
 @endpush
