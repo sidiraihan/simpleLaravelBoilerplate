@@ -19,6 +19,11 @@ Route::get('/', function () {
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('contacts', 'ContactController')->middleware('auth');
+Route::resource('member', 'MemberController')->middleware('auth');
+Route::resource('transaction', 'TransactionController')->middleware('auth');
+Route::get('/report/member', 'TransactionController@report')->middleware('auth');
+Route::post('/generate-report/member','TransactionController@generateReport')->middleware('auth');
+
 // Route::get('/contact/listajax','ContactController@listajax')->middleware('auth');
+// Route::resource('contacts', 'ContactController')->middleware('auth');
 

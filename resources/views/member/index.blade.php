@@ -19,18 +19,14 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">Contact Information     <a style="margin: 19px;" href="{{ route('contacts.create')}}" class="btn btn-primary">Add contact</a></div>
+                <div class="card-header">Member Information     <a style="margin: 19px;" href="{{ route('member.create')}}" class="btn btn-primary">Add Member</a></div>
                 <div class="card-body">
-                <table id="contactTable" class="table table-striped">
+                <table id="memberTable" class="table table-striped">
     <thead>
         <tr>
           <td>ID</td>
           <td>Name</td>
-          <td>Email</td>
-          <td>Jobs</td>
-          <td>City</td>
-          <td>Country</td>
-          <td>Owner</td>
+          <td>Point</td>
           <td colspan = 2>Actions</td>
         </tr>
     </thead>
@@ -56,20 +52,16 @@ $(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    $('#contactTable').DataTable({
+    $('#memberTable').DataTable({
         processing: true,
         serverSide: true,
         paging: true,
         autoWidth: false, // This parameter must be set to false
-        ajax: "{{ route('contacts.index') }}",
+        ajax: "{{ route('member.index') }}",
         columns: [
             { data: 'id', name: 'id' },
-            { data: 'first_name', name: 'name' },
-            { data: 'email', name: 'email' },
-            { data: 'job_title', name: 'job',},
-            { data: 'city', name: 'city' },
-            { data: 'country', name: 'country' },
-            { data: 'owner', name: 'owner' },
+            { data: 'Name', name: 'name' },
+            { data: 'Point', name: 'point' },
             { data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -90,13 +82,13 @@ $(function () {
 
             $.ajax(
                 {
-                url: "contacts/"+id, 
+                url: "member/"+id, 
                 type: 'DELETE',
                 data: {
                     id: id
                 },
                 success: function (response){
-                    $('#contactTable').DataTable().ajax.reload() ;
+                    $('#memberTable').DataTable().ajax.reload() ;
                     swal("Removed", {
                     icon: "success",
                     timer: 800,
@@ -105,31 +97,6 @@ $(function () {
             });
         }
         });
-
-        // swal({
-        //     title: "Are you sure ? ",
-        //     text: "you are going to remove "+$(this).data('name'),
-        //     type: "warning",
-        //     showCancelButton: !0,
-        //     closeOnConfirm: !1,
-        //     showLoaderOnConfirm: !0
-        // }, function() {
-        //   reCsrf();
-        //   $.post("/api/customers/destroy", {id: id}, function(result){
-        //         var data = $.parseJSON(result);
-        //         if(data.success){
-        //           $('#customerListDT').DataTable().ajax.reload() ;
-        //           swal("Customer has been removed");
-        //         }else{
-        //           swal({
-        //             title:"Ooops, it failed..",
-        //             text: "It seems that something wrong happened",
-        //             type: "error"
-        //           })
-        //         }
-
-        //   });
-        // })
     });
 
     //swal("Hello world!");

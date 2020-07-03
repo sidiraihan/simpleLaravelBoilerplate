@@ -20,7 +20,6 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" integrity="sha256-ENFZrbVzylNbgnXx0n3I1g//2WeO47XxoPe0vkp3NC8=" crossorigin="anonymous" />
-
 </head>
 <body>
     <div id="app">
@@ -56,7 +55,11 @@
                                 <a class="nav-link" href="{{ route('home') }}">Home</a>
                             </li>
                         <li class="nav-item">
-                                <a class="nav-link" href="{{ route('contacts.index') }}">Contact</a>
+                                <a class="nav-link" href="{{ route('member.index') }}">Nasabah</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('transaction.index') }}">Transaksi</a>
                             </li>
                            
                             <li class="nav-item dropdown">
